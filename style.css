@@ -1,0 +1,254 @@
+/* ===========================
+   GLOBAL / RESET
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0f1f, #1b1b33, #13131f);
+    background-size: 300% 300%;
+    animation: bgShift 12s infinite alternate;
+    color: #fff;
+    overflow: hidden;
+}
+
+@keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* ===========================
+   GLASSMORPHISM PRESET
+=========================== */
+.glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Neon Borders */
+.neon {
+    border: 2px solid rgba(70, 130, 255, 0.7);
+    box-shadow: 0 0 12px rgba(70, 130, 255, 1),
+                inset 0 0 20px rgba(40, 80, 220, 0.4);
+}
+
+
+
+
+/* ===========================
+   SIDEBAR
+=========================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    animation: slideInLeft 1s ease;
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-80px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.sidebar .logo {
+    display: flex;
+    align-items: center;
+    font-size: 26px;
+    font-weight: 700;
+    gap: 10px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.nav-btn {
+    background: rgba(255,255,255,0.05);
+    color: #cfd8ff;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-size: 15px;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: rgba(255,255,255,0.15);
+    transform: translateX(6px);
+    box-shadow: 0 0 12px #4da3ff;
+}
+
+
+
+/* ===========================
+   MAIN AREA
+=========================== */
+.main-area {
+    margin-left: 280px;
+    padding: 35px;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 25px;
+    margin-bottom: 20px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #6eaaff;
+    backdrop-filter: blur(10px);
+}
+
+.streak {
+    padding: 10px 18px;
+    border-left: 3px solid #ffcc66;
+    animation: pulseGlow 2.5s infinite;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 8px #ffcc66; }
+    100% { box-shadow: 0 0 22px #ffcc66; }
+}
+
+
+/* ===========================
+   CARDS
+=========================== */
+.cards {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 22px;
+}
+
+.card {
+    padding: 22px;
+    min-height: 180px;
+    animation: floatIn 0.9s ease;
+}
+
+.big-card {
+    min-height: 300px;
+}
+
+@keyframes floatIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* ===========================
+   WARNING BANNER
+=========================== */
+.warning {
+    background: rgba(255, 80, 80, 0.2);
+    border-left: 4px solid #ff5757;
+    padding: 15px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    font-weight: 600;
+    animation: warnPulse 1s infinite alternate;
+}
+
+.hidden { display: none !important; }
+
+@keyframes warnPulse {
+    from { box-shadow: 0 0 5px #ff4444; }
+    to { box-shadow: 0 0 15px #ff4444; }
+}
+
+
+
+/* ===========================
+   APP USAGE LIST
+=========================== */
+#appContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.app-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    box-shadow: inset 0 0 14px rgba(255,255,255,0.04);
+}
+
+.app-progress {
+    height: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 5px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.app-progress-inner {
+    height: 8px;
+    background: linear-gradient(90deg, #6eaaff, #4d8fff);
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+
+
+/* ===========================
+   FLOATING TOAST
+=========================== */
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    padding: 18px 28px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 15px #4da3ff;
+    animation: slideToast 0.4s ease forwards;
+}
+
+@keyframes slideToast {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* ============*
+

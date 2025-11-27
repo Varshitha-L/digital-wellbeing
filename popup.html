@@ -1,0 +1,12 @@
+<!doctype html>
+<html><body>
+<h3>WellTrack Extension</h3>
+<button id="setToken">Set Token</button>
+<div id="status"></div>
+<script>
+document.getElementById('setToken').addEventListener('click', async () => {
+  const token = prompt('Paste JWT token from backend');
+  if(token) chrome.storage.local.set({ wt_token: token }, () => document.getElementById('status').textContent='Token saved');
+});
+</script>
+</body></html>

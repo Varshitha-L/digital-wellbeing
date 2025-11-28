@@ -121,23 +121,144 @@
 
   // Render or update Chart.js chart
   function renderUsageChart(agg, daysSeries) {
-    // top N apps
     const top = agg.slice(0, TOP_N_APPS);
-    const labels = top.map(x => x.name);
-    const values = top.map(x => Math.round(x.seconds / 60)); // minutes
+    const barLabels = top.map(x => x.name);
+    const barValues = top.map(x => Math.round(x.seconds / 60));
 
-    // If chart exists, update dataset
-    if (usageChart) {
-      usageChart.data.labels = labels;
-      usageChart.data.datasets[0].data = values;
-      // optional timeseries dataset
-      if (usageChart.data.datasets.length > 1) {
-        usageChart.data.datasets[1].data = daysSeries.map(d => d.minutes);
-        usageChart.data.labels = labels; // keep labels same for bar; timeseries is in dataset2.xAxis? We'll show in tooltip only.
-      }
-      usageChart.update();
-      return;
+    const lineLabels = daysSeries.map(d => d.label);
+    const lineValues = daysSeries.map(d => d.minutes);
+
+    // --- Neon Bar Gradient ---
+    const barGradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+    barGradient.addColorStop(0, "rgba(0,212,255,1)");
+    barGradient.addColorStop(1, "rgba(2,0,36,1)");
+
+    // --- Neon Line Gradient Fill ---
+    const lineGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    lineGradient.addColorStop(0, "rgba(0,255,170,0.45)");
+    lineGradient.addColorStop(1, "rgba(0,255,170,0)");
+
+    // First render
+    if (!usageChart) {
+        usageChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: barLabels,
+                datasets: [
+                    // BAR DATASET
+                    {
+                        type: "bar",
+                        label: "Top Apps (minutes)",
+                        data: barValues,
+                        backgroundColor: barGradient,
+                        borderColor: "rgba(0,255,255,0.7)",
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        hoverBackgroundColor: "rgba(0,255,255,0.9)",
+                        hoverBorderColor: "#00ffff",
+                        hoverBorderWidth: 3,
+                        shadowColor: "rgba(0,255,255,0.7)",
+                        shadowBlur: 20
+                    },
+
+                    // LINE DATASET
+                    {
+                        type: "line",
+                        label: "Last 7 Days (min)",
+                        data: lineValues,
+                        xAxisID: "x2",
+                        yAxisID: "y2",
+                        borderColor: "#00ffaa",
+                        borderWidth: 4,
+                        fill: "start",
+                        backgroundColor: lineGradient,
+                        tension: 0.35,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#00ffaa",
+                        pointBorderColor: "#003322",
+                        pointHoverRadius: 8,
+                        pointHoverBorderWidth: 3,
+                        pointHoverBackgroundColor: "#00ffcc",
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                animation: {
+                    duration: 1200,
+                    easing: "easeOutQuart",
+
+                    onProgress: (anim) => {
+                        const chart = anim.chart;
+                        chart.data.datasets[1].borderWidth = 3 + Math.sin(anim.currentStep / 10);
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        labels: { color: "#fff", font: { size: 12, family: "Poppins" } }
+                    },
+                    tooltip: {
+                        backgroundColor: "rgba(20,20,20,0.85)",
+                        titleColor: "#00ffff",
+                        bodyColor: "#fff",
+                        usePointStyle: true
+                    }
+                },
+
+                scales: {
+                    // BAR AXIS
+                    x: {
+                        ticks: { color: "#fff", maxRotation: 0 },
+                        grid: { display: false }
+                    },
+
+                    // LINE AXIS (LABELS)
+                    x2: {
+                        type: "category",
+                        labels: lineLabels,
+                        ticks: { color: "#00ffaa" },
+                        grid: { display: false }
+                    },
+
+                    // LEFT Y (BAR)
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: "#fff" },
+                        grid: { color: "rgba(255,255,255,0.05)" }
+                    },
+
+                    // RIGHT Y (LINE)
+                    y2: {
+                        position: "right",
+                        beginAtZero: true,
+                        ticks: { color: "#00ffaa" },
+                        grid: { display: false }
+                    }
+                },
+
+                // Smooth chart transitions
+                transitions: {
+                    show: { animations: { x: { from: 0 }, y: { from: 0 } } },
+                    hide: { animations: { x: { to: 0 }, y: { to: 0 } } }
+                }
+            }
+        });
     }
+
+    // UPDATE chart
+    else {
+        usageChart.data.labels = barLabels;
+        usageChart.data.datasets[0].data = barValues;
+        usageChart.data.datasets[1].data = lineValues;
+        usageChart.options.scales.x2.labels = lineLabels;
+
+        usageChart.update("active");
+    }
+}
 
     // create chart
     usageChart = new Chart(ctx, {
@@ -268,3 +389,4 @@
   });
 
 })();
+

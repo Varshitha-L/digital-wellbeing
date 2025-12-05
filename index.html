@@ -1,139 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>WellTrack — AI Screen-Time Dashboard</title>
+ <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>WellTrack — AI Screen-Time Dashboard</title>
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Styles -->
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-    <!-- =========================
-           SIDE NAVIGATION
-       ========================= -->
-    <aside class="sidebar glass">
-        <div class="logo">
-            <i class="ri-focus-2-line"></i>
-            <span>WellTrack</span>
-        </div>
+<!-- =========================
+       SIDE NAVIGATION
+     ========================= -->
+<aside class="sidebar glass" role="navigation" aria-label="Main Navigation">
+    <div class="logo" aria-label="WellTrack Logo">
+        <i class="ri-focus-2-line" aria-hidden="true"></i>
+        <span>WellTrack</span>
+    </div>
 
-        <nav>
-            <button class="nav-btn active" onclick="loadDashboard()">
-                <i class="ri-dashboard-line"></i> Dashboard
-            </button>
+    <nav>
+        <button class="nav-btn active" onclick="loadDashboard()" aria-current="page">
+            <i class="ri-dashboard-line" aria-hidden="true"></i> Dashboard
+        </button>
 
-            <button class="nav-btn" onclick="showApps()">
-                <i class="ri-apps-2-line"></i> Apps
-            </button>
+        <button class="nav-btn" onclick="showApps()">
+            <i class="ri-apps-2-line" aria-hidden="true"></i> Apps
+        </button>
 
-            <button class="nav-btn" onclick="showAchievements()">
-                <i class="ri-medal-line"></i> Achievements
-            </button>
+        <button class="nav-btn" onclick="showAchievements()">
+            <i class="ri-medal-line" aria-hidden="true"></i> Achievements
+        </button>
 
-            <button class="nav-btn" onclick="showReports()">
-                <i class="ri-pie-chart-line"></i> Reports
-            </button>
+        <button class="nav-btn" onclick="showReports()">
+            <i class="ri-pie-chart-line" aria-hidden="true"></i> Reports
+        </button>
 
-            <button class="nav-btn" onclick="openSettings()">
-                <i class="ri-settings-3-line"></i> Settings
-            </button>
-        </nav>
-    </aside>
-
-
-
-    <!-- =========================
-            MAIN DASHBOARD
-       ========================= -->
-    <main class="main-area">
-
-        <!-- Header -->
-        <header class="header glass">
-            <h1>📊 Screen-Time Overview</h1>
-
-            <div class="header-right">
-                <div id="streakBox" class="streak glass">
-                    🔥 Streak: <span id="streakCount">3</span> days
-                </div>
-
-                <div class="profile">
-                    <img src="avatar.png" alt="User">
-                </div>
-            </div>
-        </header>
-
-
-        <!-- =========================
-               REALTIME AUTO WARNING
-        ========================= -->
-        <div id="warning" class="warning hidden"></div>
+        <button class="nav-btn" onclick="openSettings()">
+            <i class="ri-settings-3-line" aria-hidden="true"></i> Settings
+        </button>
+    </nav>
+</aside>
 
 
 
-        <!-- =========================
-                DASHBOARD CARDS
-        ========================= -->
-        <section class="cards">
+<!-- =========================
+        MAIN DASHBOARD
+     ========================= -->
+<main class="main-area" role="main">
 
-            <!-- Today’s usage meter -->
-            <div class="card glass big-card">
-                <h2>Today's Usage</h2>
-                <canvas id="usageChart"></canvas>
+    <!-- Header -->
+    <header class="header glass">
+        <h1>📊 Screen-Time Overview</h1>
+
+        <div class="header-right">
+            <div id="streakBox" class="streak glass" aria-live="polite" aria-atomic="true">
+                🔥 Streak: <span id="streakCount">3</span> days
             </div>
 
-            <!-- App list -->
-            <div id="appsList" class="card glass">
-                <h2>Live App Usage</h2>
-                <div id="appContainer"></div>
-            </div>
-
-            <!-- AI Suggestions -->
-            <div class="card glass">
-                <h2>AI Suggestions</h2>
-                <p id="aiSuggestion">Loading...</p>
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-                FLOATING TOAST
-        ========================= -->
-        <div id="toast" class="toast hidden"></div>
-
-
-        <!-- =========================
-                ACHIEVEMENT POPUP
-        ========================= -->
-        <div id="achievementModal" class="modal hidden">
-            <div class="modal-content glass">
-                <h2>🏆 Achievement Unlocked</h2>
-                <p id="achievementText"></p>
-                <button onclick="closeAchievement()">Close</button>
+            <div class="profile">
+                <img src="avatar.png" alt="User avatar" width="40" height="40" />
             </div>
         </div>
+    </header>
 
 
-        <!-- =========================
-                PAGE TRANSITION OVERLAY
+    <!-- =========================
+           REALTIME AUTO WARNING
         ========================= -->
-        <div id="transition" class="transition hidden"></div>
-
-    </main>
+    <div id="warning" class="warning hidden" role="alert" aria-live="assertive"></div>
 
 
+    <!-- =========================
+            DASHBOARD CARDS
+        ========================= -->
+    <section class="cards">
+
+        <!-- Today’s usage meter -->
+        <article class="card glass big-card" aria-label="Today's Usage">
+            <h2>Today's Usage</h2>
+            <canvas id="usageChart" aria-describedby="usageChartDesc"></canvas>
+            <p id="usageChartDesc" class="sr-only">Chart showing today's screen time usage distribution.</p>
+        </article>
+
+        <!-- App list -->
+        <article id="appsList" class="card glass" aria-label="Live App Usage">
+            <h2>Live App Usage</h2>
+            <div id="appContainer"></div>
+        </article>
+
+        <!-- AI Suggestions -->
+        <article class="card glass" aria-label="AI Suggestions">
+            <h2>AI Suggestions</h2>
+            <p id="aiSuggestion">Loading...</p>
+        </article>
+
+    </section>
 
 
-    <!-- JS File -->
-    <script src="script.js"></script>
-</body>
-</html>
+    <!-- =========================
+            FLOATING TOAST
+        ========================= -->
+    <div id="toast" class="toast hidden" role="alert" aria-live="assertive"></div>
+
+
+    <!-- =========================
+            ACHIEVEMENT POPUP
+        ========================= -->
+    <div id="achievementModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="achievementTitle" aria-describedby="achievementText">
+        <div class="modal-content glass">
+            <h2 id="achievementTitle">🏆 Achievement Unlocked</h2>
+            <p id="achievementText"></p>
+            <button onclick="closeAchievement()" aria-label="Close Achievement Popup">Close</button>
+        </div>
+    </div>
+
+
+    <!-- =========================
+            PAGE TRANSITION OVERLAY
+        ========================= -->
+    <div id="transition" class="transition hidden" aria-hidden="true"></div>
+
+</main>
+
+
+
+<!-- JS File -->
+<script src="script.js"></script>
+
+</body> </html>
+

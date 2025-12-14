@@ -1,60 +1,128 @@
-<!doctype html>
+ <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <style>
-    body { font-family: Arial, sans-serif; width: 220px; }
-    button { margin-top: 8px; width: 100%; }
-    #status { margin-top: 10px; font-size: 12px; }
+    body { font-family: Arial, sans-serif; width: 260px; }
+    h3 { margin-bottom: 6px; }
+    button { width: 100%; margin-top: 6px; }
+    .info { font-size: 12px; margin-top: 6px; }
+    .ok { color: green; }
+    .warn { color: orange; }
+    .err { color: red; }
+    code { font-size: 11px; }
   </style>
 </head>
 <body>
 
 <h3>WellTrack</h3>
 
-<button id="setToken">Set Token</button>
+<button id="setToken">Set / Replace Token</button>
 <button id="clearToken">Clear Token</button>
+<button id="pingBackend">Test Backend</button>
 
-<div id="status"></div>
+<div id="status" class="info"></div>
+<div id="details" class="info"></div>
 
 <script>
 const statusEl = document.getElementById('status');
+const detailsEl = document.getElementById('details');
+const BACKEND_URL = 'http://localhost:5001/api/usage';
 
-function isValidJWT(token) {
-  return token.split('.').length === 3;
+function decodeJWT(token) {
+  try {
+    const payload = token.split('.')[1];
+    return JSON.parse(atob(payload));
+  } catch {
+    return null;
+  }
 }
 
-function updateStatus() {
+function maskToken(token) {
+  return token.slice(0, 8) + '…' + token.slice(-6);
+}
+
+function updateUI() {
   chrome.storage.local.get('wt_token', data => {
-    statusEl.textContent = data.wt_token
-      ? 'Token stored ✔'
-      : 'No token set';
+    if (!data.wt_token) {
+      statusEl.textContent = 'No token stored';
+      statusEl.className = 'info';
+      detailsEl.textContent = '';
+      return;
+    }
+
+    const payload = decodeJWT(data.wt_token);
+    const now = Math.floor(Date.now() / 1000);
+
+    statusEl.textContent = 'Token stored';
+    statusEl.className = 'ok';
+
+    let detailText = `Token: ${maskToken(data.wt_token)}`;
+
+    if (payload && payload.exp) {
+      const expiresIn = payload.exp - now;
+      if (expiresIn <= 0) {
+        detailText += '\nExpired ❌';
+        statusEl.className = 'err';
+      } else if (expiresIn < 3600) {
+        detailText += `\nExpires soon (${Math.floor(expiresIn/60)} min)`;
+        statusEl.className = 'warn';
+      } else {
+        detailText += `\nValid (${Math.floor(expiresIn/3600)} hrs left)`;
+      }
+    } else {
+      detailText += '\nNo expiry info';
+      statusEl.className = 'warn';
+    }
+
+    detailsEl.innerHTML = `<code>${detailText.replace(/\n/g,'<br>')}</code>`;
   });
 }
 
-document.getElementById('setToken').addEventListener('click', () => {
-  const token = prompt('Paste JWT token from backend');
-
-  if (!token) return;
-
-  if (!isValidJWT(token)) {
-    statusEl.textContent = 'Invalid token format';
+document.getElementById('setToken').onclick = () => {
+  const token = prompt('Paste JWT token');
+  if (!token || token.split('.').length !== 3) {
+    statusEl.textContent = 'Invalid JWT format';
+    statusEl.className = 'err';
     return;
   }
+  chrome.storage.local.set({ wt_token: token }, updateUI);
+};
 
-  chrome.storage.local.set({ wt_token: token }, () => {
-    statusEl.textContent = 'Token saved ✔';
+document.getElementById('clearToken').onclick = () => {
+  chrome.storage.local.remove('wt_token', updateUI);
+};
+
+document.getElementById('pingBackend').onclick = async () => {
+  chrome.storage.local.get('wt_token', async data => {
+    if (!data.wt_token) {
+      statusEl.textContent = 'No token to test';
+      statusEl.className = 'warn';
+      return;
+    }
+
+    try {
+      const res = await fetch(BACKEND_URL, {
+        headers: { Authorization: `Bearer ${data.wt_token}` }
+      });
+
+      if (res.ok) {
+        statusEl.textContent = 'Backend reachable ✔';
+        statusEl.className = 'ok';
+      } else {
+        statusEl.textContent = 'Auth failed';
+        statusEl.className = 'err';
+      }
+    } catch {
+      statusEl.textContent = 'Backend unreachable';
+      statusEl.className = 'err';
+    }
   });
-});
+};
 
-document.getElementById('clearToken').addEventListener('click', () => {
-  chrome.storage.local.remove('wt_token', () => {
-    statusEl.textContent = 'Token cleared';
-  });
-});
-
-updateStatus();
+updateUI();
 </script>
 
 </body>
 </html>
+

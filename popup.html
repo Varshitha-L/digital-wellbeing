@@ -1,12 +1,60 @@
 <!doctype html>
-<html><body>
-<h3>WellTrack Extension</h3>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; width: 220px; }
+    button { margin-top: 8px; width: 100%; }
+    #status { margin-top: 10px; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+<h3>WellTrack</h3>
+
 <button id="setToken">Set Token</button>
+<button id="clearToken">Clear Token</button>
+
 <div id="status"></div>
+
 <script>
-document.getElementById('setToken').addEventListener('click', async () => {
+const statusEl = document.getElementById('status');
+
+function isValidJWT(token) {
+  return token.split('.').length === 3;
+}
+
+function updateStatus() {
+  chrome.storage.local.get('wt_token', data => {
+    statusEl.textContent = data.wt_token
+      ? 'Token stored ✔'
+      : 'No token set';
+  });
+}
+
+document.getElementById('setToken').addEventListener('click', () => {
   const token = prompt('Paste JWT token from backend');
-  if(token) chrome.storage.local.set({ wt_token: token }, () => document.getElementById('status').textContent='Token saved');
+
+  if (!token) return;
+
+  if (!isValidJWT(token)) {
+    statusEl.textContent = 'Invalid token format';
+    return;
+  }
+
+  chrome.storage.local.set({ wt_token: token }, () => {
+    statusEl.textContent = 'Token saved ✔';
+  });
 });
+
+document.getElementById('clearToken').addEventListener('click', () => {
+  chrome.storage.local.remove('wt_token', () => {
+    statusEl.textContent = 'Token cleared';
+  });
+});
+
+updateStatus();
 </script>
-</body></html>
+
+</body>
+</html>

@@ -2,9 +2,15 @@
   "name": "quality-of-life-tooling",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "prepare": "husky install",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
     "husky": "^9.0.0",
@@ -12,7 +18,10 @@
     "prettier": "^3.2.5"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,json,css,scss,md,html}": [
+    "*.{js,ts,jsx,tsx}": [
+      "prettier --write"
+    ],
+    "*.{json,css,scss,md,html,yml,yaml}": [
       "prettier --write"
     ]
   }

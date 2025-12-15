@@ -2,23 +2,37 @@
   "name": "quality-of-life-tooling",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
   "scripts": {
     "prepare": "husky install",
+
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "precommit": "lint-staged"
+
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+
+    "validate": "npm run format:check && npm run lint"
   },
   "devDependencies": {
+    "prettier": "^3.2.5",
+
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+
     "husky": "^9.0.0",
     "lint-staged": "^15.0.0",
-    "prettier": "^3.2.5"
+
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
+      "eslint --fix",
       "prettier --write"
     ],
     "*.{json,css,scss,md,html,yml,yaml}": [
@@ -26,3 +40,5 @@
     ]
   }
 }
+
+

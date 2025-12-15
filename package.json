@@ -1,22 +1,27 @@
 {
   "name": "quality-of-life-tooling",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "npm@9.9.0",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=18.18.0"
   },
   "scripts": {
     "prepare": "husky install",
 
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
 
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
 
-    "validate": "npm run format:check && npm run lint"
+    "typecheck": "tsc --noEmit",
+
+    "validate": "npm run format:check && npm run lint",
+
+    "commit": "cz",
+    "release": "semantic-release"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
@@ -28,7 +33,13 @@
     "lint-staged": "^15.0.0",
 
     "@commitlint/cli": "^19.0.0",
-    "@commitlint/config-conventional": "^19.0.0"
+    "@commitlint/config-conventional": "^19.0.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+
+    "semantic-release": "^23.0.0",
+
+    "typescript": "^5.4.0"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
@@ -38,7 +49,13 @@
     "*.{json,css,scss,md,html,yml,yaml}": [
       "prettier --write"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
+
 
 

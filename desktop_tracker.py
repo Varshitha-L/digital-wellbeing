@@ -18,7 +18,7 @@ SOCIAL_APPS = [
     "youtube", "twitter", "snapchat"
 ]
 
-# ---------------- App ----------------
+
 app = Flask(__name__)
 
 usage_data = {}
@@ -133,6 +133,7 @@ if __name__ == "__main__":
     threading.Thread(target=track_usage, daemon=True).start()
     threading.Thread(target=autosave, daemon=True).start()
     run_flask()
+
 
 
 

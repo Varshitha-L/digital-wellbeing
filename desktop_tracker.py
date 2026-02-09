@@ -11,7 +11,6 @@ TRACK_INTERVAL = 1
 IDLE_THRESHOLD = 60        
 SAVE_INTERVAL = 30         
 DATA_FILE = "usage_data.json"
-
 SOCIAL_APPS = [
     "instagram", "facebook", "tiktok",
     "youtube", "twitter", "snapchat"
@@ -130,6 +129,7 @@ if __name__ == "__main__":
     threading.Thread(target=track_usage, daemon=True).start()
     threading.Thread(target=autosave, daemon=True).start()
     run_flask()
+
 
 
 

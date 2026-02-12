@@ -52,7 +52,6 @@ function updateUI() {
 
     const payload = decodeJWT(data.wt_token);
     const now = Math.floor(Date.now() / 1000);
-
     statusEl.textContent = 'Token stored';
     statusEl.className = 'ok';
 
@@ -124,5 +123,6 @@ updateUI();
 
 </body>
 </html>
+
 
 

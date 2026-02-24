@@ -20,8 +20,6 @@ usage_data = {}
 current_app = None
 last_time = time.time()
 lock = threading.Lock()
-
-# ---------------- Idle Detection ----------------
 class LASTINPUTINFO(Structure):
     _fields_ = [("cbSize", c_uint), ("dwTime", c_uint)]
 
@@ -128,6 +126,7 @@ if __name__ == "__main__":
     threading.Thread(target=track_usage, daemon=True).start()
     threading.Thread(target=autosave, daemon=True).start()
     run_flask()
+
 
 
 

@@ -102,7 +102,6 @@ def get_usage():
             is_social = any(s in app for s in SOCIAL_APPS)
             if is_social:
                 social_time += seconds
-
             apps.append({
                 "app": app,
                 "seconds": seconds,
@@ -124,6 +123,7 @@ if __name__ == "__main__":
     threading.Thread(target=track_usage, daemon=True).start()
     threading.Thread(target=autosave, daemon=True).start()
     run_flask()
+
 
 
 

@@ -30,7 +30,6 @@ def get_idle_time():
     millis = windll.kernel32.GetTickCount() - lii.dwTime
     return millis / 1000.0
 
-# ---------------- Core Logic ----------------
 def get_active_app():
     try:
         hwnd = win32gui.GetForegroundWindow()
@@ -125,6 +124,7 @@ if __name__ == "__main__":
     threading.Thread(target=track_usage, daemon=True).start()
     threading.Thread(target=autosave, daemon=True).start()
     run_flask()
+
 
 
 

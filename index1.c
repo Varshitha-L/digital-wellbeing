@@ -10,7 +10,6 @@
     <header>
       <h1>Digital Wellness — Desktop Monitor</h1>
     </header>
-
     <main>
       <section id="controls">
         <div class="buttons">

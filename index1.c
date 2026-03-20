@@ -47,7 +47,6 @@
       <small>App runs offline and monitors active window for social usage</small>
     </footer>
   </div>
-
   <script src="renderer.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ const path = require('path');
 const dbPath = path.join(__dirname, 'welltrack.db');
 const db = new Database(dbPath);
 
-// initialize schema
+ 
 db.exec(`
 PRAGMA foreign_keys = ON;
 

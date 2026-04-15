@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 3, 
   "name": "WellTrack Web Tracker",
   "version": "1.0",
   "permissions": ["tabs", "storage", "activeTab", "scripting"],

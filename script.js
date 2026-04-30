@@ -2,7 +2,7 @@
    Screen-time graphing helper for WellTrack dashboard.
    - Requires Chart.js already loaded on the page.
    - Reads from backend /api/sessions (Authorization: Bearer <token> in localStorage.wt_token),
-     otherwise falls back to localStorage keys `wt_local_sessions` and `wt_local_buffer`.
+     otherwise falls back to localStorage keys `wt_local_sessions` and `wt_local_buffer`
 */
 
 (() => {

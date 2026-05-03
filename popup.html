@@ -24,8 +24,7 @@
 <script>
 const statusEl = document.getElementById('status');
 const detailsEl = document.getElementById('details');
-const BACKEND_URL = 'http://localhost:5001/api/usage';
-
+const BACKEND_URL = 'http://localhost:5001/api/usage';
 function decodeJWT(token) {
   try {
     const payload = token.split('.')[1];

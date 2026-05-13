@@ -16,7 +16,7 @@ body {
     100% { background-position: 100% 50%; }
 }
 
- 
+
 .glass {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(18px);

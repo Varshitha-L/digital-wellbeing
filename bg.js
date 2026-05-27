@@ -1,4 +1,4 @@
-// bg.js - tracks tab usage and POSTs to backend when token present
+// bg.js - tracks tab usage and POSTs to backeed
 const SOCIAL_SITES = ['youtube.com','instagram.com','facebook.com','reddit.com','twitter.com','tiktok.com'];
 let activeTab = { id: null, url: null, start: Date.now() };
 

@@ -17,7 +17,6 @@
           <button id="btn-stop">Stop Monitoring</button>
           <button id="btn-reset">Reset Counters</button>
         </div>
-
         <div class="settings">
           <label>Alert threshold (minutes):
             <input type="number" id="threshold" min="1" value="20">

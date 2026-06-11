@@ -27,7 +27,7 @@
           </label>
           <button id="saveSettings">Save Settings</button>
         </div>
-      </section>
+      </section> 
 
       <section id="live">
         <h2>Live Activity</h2>

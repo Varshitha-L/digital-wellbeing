@@ -1,6 +1,6 @@
 // server.js
 const express = require('express');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); 
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const helmet = require('helmet');

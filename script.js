@@ -4,7 +4,6 @@
    - Reads from backend /api/sessions (Authorization: Bearer <token> in localStorage.wt_token),
      otherwise falls back to localStorage keys `wt_local_sessions` and `wt_local_buffer`
 */
-
 (() => {
   // CONFIG
   const API_BASE = localStorage.getItem('wt_api_base') || 'http://localhost:8080';

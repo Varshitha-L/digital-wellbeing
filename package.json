@@ -19,7 +19,6 @@
     "typecheck": "tsc --noEmit",
 
     "validate": "npm run format:check && npm run lint",
-
     "commit": "cz",
     "release": "semantic-release"
   },

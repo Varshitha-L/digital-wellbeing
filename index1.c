@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>Digital Wellness</title>
   <link rel="stylesheet" href="style.css">
-</head>
+</head> 
 <body>
   <div id="app">
     <header>

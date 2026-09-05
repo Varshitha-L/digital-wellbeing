@@ -1,7 +1,6 @@
 // bg.js - tracks tab usage and POSTs to backeed
 const SOCIAL_SITES = ['youtube.com','instagram.com','facebook.com','reddit.com','twitter.com','tiktok.com'];
 let activeTab = { id: null, url: null, start: Date.now() };
-
 async function getJwt() {
   return new Promise(resolve => {
     chrome.storage.local.get(['wt_token'], res => resolve(res.wt_token || null));

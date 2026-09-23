@@ -1,0 +1,8 @@
+
+mkdir images
+echo "Screenshots folder" > images/README.md
+git add images/
+git commit -m "Add images folder for screenshots"
+git push
+
+

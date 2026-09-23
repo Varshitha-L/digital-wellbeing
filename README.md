@@ -26,3 +26,19 @@ Daily reports are saved to promote digital wellness and better time management.
 ---
 
 ## 📂 Project Structure
+/c-app          → C console program
+/frontend       → HTML, CSS, JS files
+/backend        → Node.js server scripts
+/python-scripts → Desktop tracker utilities
+/docs           → Documentation and reports
+
+---
+
+## 📖 Installation & Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Varshitha-L/digital-wellbeing.git
+gcc index1.c -o wellbeing
+./wellbeing
+python desktop_tracker.py
+

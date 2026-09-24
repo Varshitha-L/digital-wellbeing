@@ -7,7 +7,7 @@
 (() => {
   // CONFIG
   const API_BASE = localStorage.getItem('wt_api_base') || 'http://localhost:8080';
-  const POLL_MS = 30_000; // refresh every 30 seconds
+  const POLL_MS = 30_000; // refresh every 30 seconds 
   const TOP_N_APPS = 8;   // top N apps to show in bar chart
 
   // DOM

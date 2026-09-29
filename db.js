@@ -4,8 +4,7 @@ const path = require('path');
 const dbPath = path.join(__dirname, 'welltrack.db');
 const db = new Database(dbPath);
 
- 
-db.exec(`
+ db.exec(`
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS users (

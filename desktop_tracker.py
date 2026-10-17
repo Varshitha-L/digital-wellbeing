@@ -113,7 +113,6 @@ def get_usage():
         "non_social_seconds": total - social_time,
         "apps": sorted(apps, key=lambda x: x["seconds"], reverse=True)
     })
-
 # ---------------- Startup ----------------
 def run_flask():
     app.run(port=5001, debug=False)
